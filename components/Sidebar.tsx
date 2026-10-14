@@ -31,7 +31,7 @@ export default async function Sidebar() {
         {profile?.photo && (
           <img src={urlFor(profile.photo as unknown as SanityImageSource).width(360).height(480).fit("crop").url()}
             alt={profile.photo.alt || profile.name || "Sarah Rowles"}
-            className="mx-auto aspect-[3/4] w-40 rounded border-2 border-accent-gold object-cover"
+            className="mx-auto aspect-[3/4] w-40 rounded border-2 border-accent-2 object-cover"
           />
         )}
         <p className="mt-5 text-left font-serif text-2xl text-ink">{profile?.name || "Sarah Rowles"}</p>
