@@ -15,7 +15,13 @@ import {structure} from './sanity/structure'
 
 // Document types listed here get the singleton treatment: no create/delete/duplicate
 // actions, and no "new document" entry. Keep in sync with sanity/structure.ts.
-const singletonTypes = new Set<string>([])
+const singletonTypes = new Set<string>([
+  'aboutPage',
+  'qartPage',
+  'researchPage',
+  'employmentPage',
+  'contactPage',
+])
 
 export default defineConfig({
   basePath: '/studio',

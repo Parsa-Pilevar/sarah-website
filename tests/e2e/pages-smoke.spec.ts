@@ -4,8 +4,7 @@ const pages = [
   { path: "/", title: /^Sarah Rowles$/ },
   { path: "/q-art", title: /Q-Art \| Sarah Rowles/ },
   { path: "/research", title: /Research \| Sarah Rowles/ },
-  { path: "/teaching", title: /Teaching \| Sarah Rowles/ },
-  { path: "/news", title: /News \| Sarah Rowles/ },
+  { path: "/employment", title: /Employment \| Sarah Rowles/ },
   { path: "/contact", title: /Contact \| Sarah Rowles/ },
 ]
 
@@ -32,5 +31,21 @@ test.describe("page smoke tests", () => {
     const response = await page.goto("/this-route-does-not-exist")
     expect(response?.status()).toBe(404)
     await expect(page.getByRole("heading", { level: 1, name: "Page not found" })).toBeVisible()
+  })
+
+  for (const path of ["/news", "/teaching"]) {
+    test(`removed route ${path} returns 404`, async ({ page }) => {
+      const response = await page.goto(path)
+      expect(response?.status()).toBe(404)
+    })
+  }
+
+  // The dataset is empty in dev and CI, so showSpotlight is unset and Spotlight must stay hidden.
+  test("/research hides Spotlight when it isn't switched on", async ({ page }) => {
+    await page.goto("/research")
+    await expect(page.getByRole("heading", { level: 1, name: "Research" })).toBeVisible()
+    await expect(page.getByRole("heading", { name: /spotlight/i })).toHaveCount(0)
+    await expect(page.locator('a[href="#spotlight"]')).toHaveCount(0)
+    await expect(page.locator("#spotlight")).toHaveCount(0)
   })
 })
