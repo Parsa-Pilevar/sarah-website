@@ -23,6 +23,21 @@ test.describe("contact page", () => {
     await expect(page.getByText("Thanks, your message has been sent.")).toBeVisible()
   })
 
+  test("shows an error message when Formspree fails", async ({ page }) => {
+    await page.goto("/contact")
+    await page.route(FORMSPREE_URL, async (route) => {
+      await route.fulfill({ status: 500, contentType: "application/json", body: JSON.stringify({ error: "fail" }) })
+    })
+    const requestPromise = page.waitForRequest(FORMSPREE_URL)
+    await page.getByLabel("Name").fill("Ada Lovelace")
+    await page.getByLabel("Email").fill("ada@example.com")
+    await page.getByLabel("Message").fill("Hello, I'd like to get in touch.")
+    await page.getByRole("button", { name: "Send" }).click()
+    await requestPromise
+    await expect(page.getByText("Something went wrong. Please try again later.")).toBeVisible()
+    await expect(page.getByText("Thanks, your message has been sent.")).toHaveCount(0)
+  })
+
   test("has name, email, and message fields", async ({ page }) => {
     await page.goto("/contact")
     await expect(page.getByLabel("Name")).toBeVisible()

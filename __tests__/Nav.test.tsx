@@ -21,9 +21,18 @@ describe("Nav", () => {
     expect(screen.getByRole("link", { name: /^about$/i })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: /q-art/i })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: /research/i })).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: /teaching/i })).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: /news/i })).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: /employment/i })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: /contact/i })).toBeInTheDocument()
+  })
+
+  test("lists the five sections in order", () => {
+    usePathname.mockReturnValue("/")
+    render(<Nav />)
+
+    const labels = screen
+      .getByRole("list")
+      .querySelectorAll("a")
+    expect(Array.from(labels, (a) => a.textContent)).toEqual(["About", "Q-Art", "Research", "Employment", "Contact"])
   })
 
   test("marks About active only on the exact root path", () => {
@@ -60,7 +69,7 @@ describe("Nav", () => {
   })
 
   test("brand link always points home", () => {
-    usePathname.mockReturnValue("/teaching")
+    usePathname.mockReturnValue("/employment")
     render(<Nav />)
 
     expect(screen.getByRole("link", { name: /sarah rowles/i })).toHaveAttribute("href", "/")

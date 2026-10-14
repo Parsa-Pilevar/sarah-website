@@ -1,16 +1,13 @@
 import type { SanityImageSource } from "@sanity/image-url"
-import { FaRegEnvelope } from "react-icons/fa"
 import { sanityFetch } from "@/sanity/lib/live"
 import { urlFor } from "@/sanity/lib/image"
 import LinkIcon from "@/components/LinkIcon"
+import { safeHref } from "@/lib/safeHref"
 
 const SIDEBAR_QUERY = `*[_id == "aboutPage"][0]{
   name,
   title,
-  institution,
-  department,
-  university,
-  email,
+  affiliations,
   links,
   photo
 }`
@@ -18,11 +15,8 @@ const SIDEBAR_QUERY = `*[_id == "aboutPage"][0]{
 type SidebarData = {
   name?: string
   title?: string
-  institution?: string
-  department?: string
-  university?: string
-  email?: string
-  links?: { label: string; url: string }[]
+  affiliations?: string[]
+  links?: { label?: string; url?: string }[]
   photo?: { alt?: string } & Record<string, unknown>
 }
 
@@ -42,22 +36,20 @@ export default async function Sidebar() {
         )}
         <p className="mt-5 text-left font-serif text-2xl text-ink">{profile?.name || "Sarah Rowles"}</p>
         {profile?.title && <p className="mt-1 text-left text-sm text-muted">{profile.title}</p>}
-        {[profile?.institution, profile?.department, profile?.university].filter(Boolean).map((line) => (
-          <p key={line} className="text-left text-sm text-muted">{line}</p>
+        {(profile?.affiliations ?? []).filter(Boolean).map((line, i) => (
+          <p key={i} className="text-left text-sm text-muted">{line}</p>
         ))}
         <div className="mt-5 flex flex-col items-start gap-2 text-sm">
-          {profile?.email && (
-            <a href={`mailto:${profile.email}`} className="flex items-center gap-1.5 text-muted hover:text-accent">
-              <FaRegEnvelope className="h-4 w-4" aria-hidden="true" />
-              {profile.email}
-            </a>
-          )}
-          {(profile?.links ?? []).map((link) => (
-            <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted hover:text-accent">
-              <LinkIcon label={link.label} />
-              {link.label}
-            </a>
-          ))}
+          {(profile?.links ?? []).map((link, i) => {
+            const href = safeHref(link?.url)
+            if (!href || !link.label) return null
+            return (
+              <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-muted hover:text-accent">
+                <LinkIcon label={link.label} />
+                {link.label}
+              </a>
+            )
+          })}
         </div>
       </div>
     </aside>

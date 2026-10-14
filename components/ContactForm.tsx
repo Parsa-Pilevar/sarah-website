@@ -56,7 +56,7 @@ export default function ContactForm() {
         <p className="text-sm text-accent">Thanks, your message has been sent.</p>
       )}
       {status === "error" && (
-        <p className="text-sm text-red-600">Something went wrong. Please try again or email directly.</p>
+        <p className="text-sm text-red-600">Something went wrong. Please try again later.</p>
       )}
     </form>
   )
