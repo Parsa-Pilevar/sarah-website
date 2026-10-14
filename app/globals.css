@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f6f5f1;
-  --ink: #1c1b19;
-  --muted: #6b6862;
-  --hairline: #dedad1;
-  --accent: #2f4f44;
-  --accent-wash: #edf1ee;
-  --accent-gold: #b8863a;
-  --accent-gold-wash: #f3e9d8;
+  --paper: #faf9f7;
+  --ink: #1f1a1e;
+  --muted: #68636a;
+  --hairline: #ddd8db;
+  --accent: #6a2c55;
+  --accent-wash: #f3eaf0;
+  --accent-2: #8e93b3;
+  --accent-2-wash: #ecedf3;
 }
 
 @theme inline {
@@ -18,8 +18,8 @@
   --color-hairline: var(--hairline);
   --color-accent: var(--accent);
   --color-accent-wash: var(--accent-wash);
-  --color-accent-gold: var(--accent-gold);
-  --color-accent-gold-wash: var(--accent-gold-wash);
+  --color-accent-2: var(--accent-2);
+  --color-accent-2-wash: var(--accent-2-wash);
   --font-serif: var(--font-newsreader);
   --font-sans: var(--font-plex-sans);
   --font-mono: var(--font-plex-mono);
