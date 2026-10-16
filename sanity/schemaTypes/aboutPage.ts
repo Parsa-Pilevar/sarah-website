@@ -15,7 +15,7 @@ export const aboutPage = defineType({
       name: 'title',
       title: 'Job title',
       type: 'string',
-      description: 'Shown under your name in the sidebar, e.g. "Lecturer in Education".',
+      description: 'Shown under your name in the sidebar, e.g. "Postdoctoral Researcher".',
     }),
     defineField({
       name: 'affiliations',
@@ -72,7 +72,37 @@ export const aboutPage = defineType({
       title: 'Bio',
       type: 'array',
       description: 'The main text of the About page.',
-      of: [defineArrayMember({type: 'block'})],
+      of: [
+        defineArrayMember({
+          type: 'block',
+          styles: [
+            {title: 'Normal', value: 'normal'},
+            {title: 'Heading', value: 'h3'},
+          ],
+          lists: [{title: 'Bullet', value: 'bullet'}],
+          marks: {
+            decorators: [
+              {title: 'Emphasis', value: 'em'},
+              {title: 'Strong', value: 'strong'},
+            ],
+            annotations: [
+              defineArrayMember({
+                name: 'link',
+                title: 'Link',
+                type: 'object',
+                fields: [
+                  defineField({
+                    name: 'href',
+                    title: 'URL',
+                    type: 'url',
+                    validation: (rule) => rule.uri({scheme: ['http', 'https']}),
+                  }),
+                ],
+              }),
+            ],
+          },
+        }),
+      ],
     }),
   ],
   preview: {prepare: () => ({title: 'About page'})},
