@@ -12,7 +12,7 @@ test.describe("primary navigation", () => {
   for (const route of routes) {
     test(`nav link "${route.label}" navigates to ${route.href}`, async ({ page }) => {
       await page.goto("/")
-      await page.getByRole("navigation").getByRole("link", { name: route.label, exact: true }).click()
+      await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: route.label, exact: true }).click()
       await expect(page).toHaveURL(new RegExp(`${route.href}$`))
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(route.heading)
     })
@@ -20,10 +20,10 @@ test.describe("primary navigation", () => {
 
   test("clicking the active nav link highlights it", async ({ page }) => {
     await page.goto("/employment")
-    const employmentLink = page.getByRole("navigation").getByRole("link", { name: "Employment", exact: true })
+    const employmentLink = page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Employment", exact: true })
     await expect(employmentLink).toHaveClass(/bg-accent/)
 
-    const aboutLink = page.getByRole("navigation").getByRole("link", { name: "About", exact: true })
+    const aboutLink = page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "About", exact: true })
     await expect(aboutLink).not.toHaveClass(/bg-accent(?!-)/)
   })
 
@@ -36,8 +36,8 @@ test.describe("primary navigation", () => {
   test("nav bar persists across all routes", async ({ page }) => {
     for (const route of routes) {
       await page.goto(route.href)
-      await expect(page.getByRole("navigation")).toBeVisible()
-      await expect(page.getByRole("navigation").getByRole("link", { name: "About", exact: true })).toBeVisible()
+      await expect(page.getByRole("navigation", { name: "Main" })).toBeVisible()
+      await expect(page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "About", exact: true })).toBeVisible()
     }
   })
 })

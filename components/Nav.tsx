@@ -15,7 +15,7 @@ export default function Nav() {
   const pathname = usePathname()
 
   return (
-    <nav className="sticky top-0 z-10 border-b border-hairline bg-paper/90 backdrop-blur-sm">
+    <nav aria-label="Main" className="sticky top-0 z-10 border-b border-hairline bg-paper/90 backdrop-blur-sm">
       <div className="h-[3px] bg-accent-2" aria-hidden="true" />
       <div className="flex w-full flex-wrap items-center justify-between gap-x-6 gap-y-2 px-6 py-4 lg:px-10 xl:px-16">
         <Link href="/" className="flex items-center gap-2 font-serif text-base text-ink">
