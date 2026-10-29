@@ -19,6 +19,13 @@ export const employmentPage = defineType({
       description: 'Shown in the order listed here. Drag to reorder.',
       of: [defineArrayMember({type: 'role'})],
     }),
+    defineField({
+      name: 'enterpriseRoles',
+      title: 'Enterprise',
+      type: 'array',
+      description: 'Shown in the order listed here. Drag to reorder.',
+      of: [defineArrayMember({type: 'role'})],
+    }),
   ],
   preview: {prepare: () => ({title: 'Employment page'})},
 })

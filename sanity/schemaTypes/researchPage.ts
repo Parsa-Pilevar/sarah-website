@@ -14,60 +14,82 @@ const linkAnnotation = defineArrayMember({
   ],
 })
 
+const publicationItem = defineArrayMember({
+  type: 'object',
+  name: 'publication',
+  title: 'Publication',
+  fields: [
+    defineField({
+      name: 'citation',
+      title: 'Citation',
+      type: 'array',
+      description: 'The full reference. Use italics for journal or book titles.',
+      of: [
+        defineArrayMember({
+          type: 'block',
+          styles: [{title: 'Normal', value: 'normal'}],
+          lists: [],
+          marks: {
+            decorators: [
+              {title: 'Emphasis', value: 'em'},
+              {title: 'Strong', value: 'strong'},
+            ],
+            annotations: [linkAnnotation],
+          },
+        }),
+      ],
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'url',
+      title: 'URL',
+      type: 'url',
+      description: 'Optional link to the publication, e.g. a DOI.',
+      validation: (rule) => rule.uri({scheme: ['http', 'https']}),
+    }),
+  ],
+  preview: {
+    select: {citation: 'citation'},
+    prepare: ({citation}) => ({
+      title:
+        (citation as {children?: {text?: string}[]}[] | undefined)?.[0]?.children
+          ?.map((child) => child.text ?? '')
+          .join('') || 'Untitled publication',
+    }),
+  },
+})
+
 export const researchPage = defineType({
   name: 'researchPage',
   title: 'Research page',
   type: 'document',
   fields: [
     defineField({
-      name: 'publications',
-      title: 'Publications',
+      name: 'publicationGroups',
+      title: 'Publication groups',
       type: 'array',
-      description: 'Shown in the order listed here. Drag to reorder.',
+      description: 'Each group is shown under its own heading, in the order listed here. Drag to reorder.',
       of: [
         defineArrayMember({
           type: 'object',
-          name: 'publication',
-          title: 'Publication',
+          name: 'publicationGroup',
+          title: 'Publication group',
           fields: [
             defineField({
-              name: 'citation',
-              title: 'Citation',
-              type: 'array',
-              description: 'The full reference. Use italics for journal or book titles.',
-              of: [
-                defineArrayMember({
-                  type: 'block',
-                  styles: [{title: 'Normal', value: 'normal'}],
-                  lists: [],
-                  marks: {
-                    decorators: [
-                      {title: 'Emphasis', value: 'em'},
-                      {title: 'Strong', value: 'strong'},
-                    ],
-                    annotations: [linkAnnotation],
-                  },
-                }),
-              ],
+              name: 'heading',
+              title: 'Heading',
+              type: 'string',
               validation: (rule) => rule.required(),
             }),
             defineField({
-              name: 'url',
-              title: 'URL',
-              type: 'url',
-              description: 'Optional link to the publication, e.g. a DOI.',
-              validation: (rule) => rule.uri({scheme: ['http', 'https']}),
+              name: 'items',
+              title: 'Publications',
+              type: 'array',
+              description: 'Shown in the order listed here. Drag to reorder.',
+              of: [publicationItem],
             }),
           ],
-          preview: {
-            select: {citation: 'citation'},
-            prepare: ({citation}) => ({
-              title:
-                (citation as {children?: {text?: string}[]}[] | undefined)?.[0]?.children
-                  ?.map((child) => child.text ?? '')
-                  .join('') || 'Untitled publication',
-            }),
-          },
+          preview: {select: {title: 'heading'}},
         }),
       ],
     }),

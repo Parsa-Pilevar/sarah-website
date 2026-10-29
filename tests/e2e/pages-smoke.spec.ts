@@ -5,6 +5,7 @@ const pages = [
   { path: "/q-art", title: /Q-Art \| Sarah Rowles/ },
   { path: "/research", title: /Research \| Sarah Rowles/ },
   { path: "/employment", title: /Employment \| Sarah Rowles/ },
+  { path: "/education", title: /Education \| Sarah Rowles/ },
   { path: "/contact", title: /Contact \| Sarah Rowles/ },
 ]
 

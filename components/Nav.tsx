@@ -8,6 +8,7 @@ const navItems = [
   { href: "/q-art", label: "Q-Art" },
   { href: "/research", label: "Research" },
   { href: "/employment", label: "Employment" },
+  { href: "/education", label: "Education" },
   { href: "/contact", label: "Contact" },
 ]
 

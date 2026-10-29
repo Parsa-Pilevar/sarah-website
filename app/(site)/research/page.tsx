@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 const RESEARCH_QUERY = `*[_id == "researchPage"][0]{
-  publications,
+  publicationGroups,
   presentations,
   presentationsNote,
   networks,
@@ -21,7 +21,13 @@ const RESEARCH_QUERY = `*[_id == "researchPage"][0]{
 }`
 
 type ResearchData = {
-  publications?: { _key?: string; citation?: PortableTextBlock[] | null; url?: string | null }[] | null
+  publicationGroups?:
+    | {
+        _key?: string
+        heading?: string | null
+        items?: { _key?: string; citation?: PortableTextBlock[] | null; url?: string | null }[] | null
+      }[]
+    | null
   presentations?: { _key?: string; date?: string | null; title?: string | null; details?: string | null }[] | null
   presentationsNote?: string | null
   networks?: string[] | null
@@ -36,13 +42,15 @@ export default async function ResearchPage() {
   const { data } = await sanityFetch({ query: RESEARCH_QUERY })
   const research = (data ?? null) as ResearchData | null
 
-  const publications = (research?.publications ?? []).filter((p) => p?.citation?.length)
+  const publicationGroups = (research?.publicationGroups ?? [])
+    .map((group) => ({ ...group, items: (group?.items ?? []).filter((p) => p?.citation?.length) }))
+    .filter((group) => group.heading?.trim() && group.items.length > 0)
   const presentations = (research?.presentations ?? []).filter((p) => p?.title)
   const networks = (research?.networks ?? []).filter(Boolean)
   const showSpotlight = shouldShowSpotlight(research)
 
   const sections = [
-    publications.length > 0 && { id: "publications", label: "Publications" },
+    publicationGroups.length > 0 && { id: "publications", label: "Publications" },
     presentations.length > 0 && { id: "presentations", label: "Presentations" },
     networks.length > 0 && { id: "networks", label: "Networks" },
     showSpotlight && { id: "spotlight", label: "Spotlight" },
@@ -54,24 +62,29 @@ export default async function ResearchPage() {
       <div className="fade-up-delay">
         <JumpLinks links={sections} />
 
-        {publications.length > 0 && (
+        {publicationGroups.length > 0 && (
           <section id="publications" className="mt-12 scroll-mt-24">
             <h2 className={sectionHeading}>Publications</h2>
-            <ul className="mt-4 flex flex-col gap-4">
-              {publications.map((pub, i) => {
-                const href = safeHref(pub.url)
-                return (
-                  <li key={pub._key ?? i}>
-                    <PortableText value={pub.citation} />
-                    {href && (
-                      <a href={href} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm text-accent hover:text-ink">
-                        View publication
-                      </a>
-                    )}
-                  </li>
-                )
-              })}
-            </ul>
+            {publicationGroups.map((group, g) => (
+              <div key={group._key ?? g} className="mt-6">
+                <h3 className="font-serif text-xl text-ink">{group.heading}</h3>
+                <ul className="mt-4 flex flex-col gap-4">
+                  {group.items.map((pub, i) => {
+                    const href = safeHref(pub.url)
+                    return (
+                      <li key={pub._key ?? i}>
+                        <PortableText value={pub.citation} />
+                        {href && (
+                          <a href={href} target="_blank" rel="noopener noreferrer" className="mt-1 inline-block text-sm text-accent hover:text-ink">
+                            View publication
+                          </a>
+                        )}
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            ))}
           </section>
         )}
 
