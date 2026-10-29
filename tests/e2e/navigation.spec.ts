@@ -5,6 +5,7 @@ const routes = [
   { href: "/q-art", label: "Q-Art", heading: "Q-Art" },
   { href: "/research", label: "Research", heading: "Research" },
   { href: "/employment", label: "Employment", heading: "Employment" },
+  { href: "/education", label: "Education", heading: "Education" },
   { href: "/contact", label: "Contact", heading: "Contact" },
 ]
 
@@ -17,6 +18,16 @@ test.describe("primary navigation", () => {
       await expect(page.getByRole("heading", { level: 1 })).toHaveText(route.heading)
     })
   }
+
+  test("nav links are in order", async ({ page }) => {
+    await page.goto("/")
+    await expect(page.getByRole("navigation", { name: "Main" }).getByRole("listitem")).toHaveText(routes.map((r) => r.label))
+  })
+
+  test("/education loads with the Education heading", async ({ page }) => {
+    await page.goto("/education")
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Education")
+  })
 
   test("clicking the active nav link highlights it", async ({ page }) => {
     await page.goto("/employment")

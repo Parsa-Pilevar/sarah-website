@@ -22,17 +22,18 @@ describe("Nav", () => {
     expect(screen.getByRole("link", { name: /q-art/i })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: /research/i })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: /employment/i })).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: /education/i })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: /contact/i })).toBeInTheDocument()
   })
 
-  test("lists the five sections in order", () => {
+  test("lists the six sections in order", () => {
     usePathname.mockReturnValue("/")
     render(<Nav />)
 
     const labels = screen
       .getByRole("list")
       .querySelectorAll("a")
-    expect(Array.from(labels, (a) => a.textContent)).toEqual(["About", "Q-Art", "Research", "Employment", "Contact"])
+    expect(Array.from(labels, (a) => a.textContent)).toEqual(["About", "Q-Art", "Research", "Employment", "Education", "Contact"])
   })
 
   test("marks About active only on the exact root path", () => {

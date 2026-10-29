@@ -6,6 +6,7 @@ const singletonTypes: {id: string; title: string}[] = [
   {id: 'qartPage', title: 'Q-Art page'},
   {id: 'researchPage', title: 'Research page'},
   {id: 'employmentPage', title: 'Employment page'},
+  {id: 'educationPage', title: 'Education page'},
   {id: 'contactPage', title: 'Contact page'},
 ]
 
