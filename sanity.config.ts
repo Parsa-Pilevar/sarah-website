@@ -20,7 +20,6 @@ const singletonTypes = new Set<string>([
   'qartPage',
   'researchPage',
   'employmentPage',
-  'educationPage',
   'contactPage',
 ])
 

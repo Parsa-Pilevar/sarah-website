@@ -39,6 +39,9 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  async redirects() {
+    return [{ source: "/employment", destination: "/work", permanent: true }]
+  },
 }
 
 export default nextConfig

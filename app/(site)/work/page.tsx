@@ -4,7 +4,7 @@ import JumpLinks from "@/components/JumpLinks"
 import RoleList, { type Role } from "@/components/RoleList"
 
 export const metadata: Metadata = {
-  title: "Employment | Sarah Rowles",
+  title: "Work | Sarah Rowles",
 }
 
 const EMPLOYMENT_QUERY = `*[_id == "employmentPage"][0]{ researchRoles, teachingRoles, enterpriseRoles }`
@@ -15,7 +15,7 @@ type EmploymentData = {
   enterpriseRoles?: Role[] | null
 }
 
-export default async function EmploymentPage() {
+export default async function WorkPage() {
   const { data } = await sanityFetch({ query: EMPLOYMENT_QUERY })
   const employment = (data ?? null) as EmploymentData | null
 
@@ -31,7 +31,7 @@ export default async function EmploymentPage() {
 
   return (
     <div className="mx-auto w-full max-w-3xl px-6 py-16 lg:max-w-4xl lg:px-10 xl:max-w-5xl xl:px-16">
-      <h1 className="fade-up font-serif text-4xl text-ink">Employment</h1>
+      <h1 className="fade-up font-serif text-4xl text-ink">Work</h1>
       <div className="fade-up-delay">
         <JumpLinks links={sections} />
         <RoleList id="research" heading="Research" roles={researchRoles} />
