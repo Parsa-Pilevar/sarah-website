@@ -2,7 +2,7 @@ import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const employmentPage = defineType({
   name: 'employmentPage',
-  title: 'Employment page',
+  title: 'Work page',
   type: 'document',
   fields: [
     defineField({
@@ -27,5 +27,5 @@ export const employmentPage = defineType({
       of: [defineArrayMember({type: 'role'})],
     }),
   ],
-  preview: {prepare: () => ({title: 'Employment page'})},
+  preview: {prepare: () => ({title: 'Work page'})},
 })

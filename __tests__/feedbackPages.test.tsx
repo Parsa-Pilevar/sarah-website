@@ -7,8 +7,7 @@ vi.mock("@/sanity/lib/live", () => ({ sanityFetch }))
 vi.mock("@/sanity/lib/image", () => ({ urlFor: vi.fn() }))
 
 import ResearchPage from "@/app/(site)/research/page"
-import EmploymentPage from "@/app/(site)/employment/page"
-import EducationPage from "@/app/(site)/education/page"
+import WorkPage from "@/app/(site)/work/page"
 import Sidebar from "@/components/Sidebar"
 
 const citation = (text: string, href?: string) => [
@@ -75,9 +74,9 @@ describe("Research publication groups", () => {
   })
 })
 
-describe("Employment Enterprise section", () => {
+describe("Work Enterprise section", () => {
   test("renders after Teaching with its jump link when there are roles", async () => {
-    await renderPage(EmploymentPage, {
+    await renderPage(WorkPage, {
       researchRoles: [{ title: "Researcher" }],
       teachingRoles: [{ title: "Lecturer" }],
       enterpriseRoles: [{ title: "Consultant", organisation: "Acme" }],
@@ -90,7 +89,7 @@ describe("Employment Enterprise section", () => {
   })
 
   test("renders no Enterprise section or jump link when empty", async () => {
-    await renderPage(EmploymentPage, {
+    await renderPage(WorkPage, {
       researchRoles: [{ title: "Researcher" }],
       enterpriseRoles: [{ title: null }],
     })
@@ -98,29 +97,6 @@ describe("Employment Enterprise section", () => {
     expect(document.getElementById("enterprise")).toBeNull()
     expect(screen.queryByRole("heading", { name: "Enterprise" })).toBeNull()
     expect(jumpLinkLabels()).toEqual(["Research"])
-  })
-})
-
-describe("Education page", () => {
-  test("renders qualifications and professional affiliations", async () => {
-    await renderPage(EducationPage, {
-      qualifications: [{ title: "PhD", organisation: "University of Somewhere", years: "2020" }],
-      affiliations: ["Royal Society of Something", ""],
-    })
-
-    expect(screen.getByRole("heading", { level: 1, name: "Education" })).toBeInTheDocument()
-    expect(screen.getByText("PhD")).toBeInTheDocument()
-    expect(screen.getByText("University of Somewhere")).toBeInTheDocument()
-    expect(screen.getByRole("heading", { level: 2, name: "Professional affiliations" })).toBeInTheDocument()
-    const list = within(document.getElementById("affiliations")!).getAllByRole("listitem")
-    expect(list.map((li) => li.textContent)).toEqual(["Royal Society of Something"])
-  })
-
-  test("renders only the heading when the document is missing", async () => {
-    await renderPage(EducationPage, null)
-    expect(screen.getByRole("heading", { level: 1, name: "Education" })).toBeInTheDocument()
-    expect(screen.queryAllByRole("heading", { level: 2 })).toHaveLength(0)
-    expect(screen.queryAllByRole("listitem")).toHaveLength(0)
   })
 })
 
@@ -151,12 +127,9 @@ describe("external links from CMS data", () => {
     expectNoReferrer(inlineLink)
   })
 
-  test("role urls carry noreferrer on Employment and Education", async () => {
-    await renderPage(EmploymentPage, { enterpriseRoles: [{ title: "Consultant", url: "https://acme.example" }] })
+  test("role urls carry noreferrer on Work", async () => {
+    await renderPage(WorkPage, { enterpriseRoles: [{ title: "Consultant", url: "https://acme.example" }] })
     expectNoReferrer(screen.getByRole("link", { name: "Consultant" }))
-
-    await renderPage(EducationPage, { qualifications: [{ title: "PhD", url: "https://uni.example" }] })
-    expectNoReferrer(screen.getByRole("link", { name: "PhD" }))
   })
 
   test("sidebar links carry noreferrer", async () => {

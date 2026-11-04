@@ -4,8 +4,7 @@ const pages = [
   { path: "/", title: /^Sarah Rowles$/ },
   { path: "/q-art", title: /Q-Art \| Sarah Rowles/ },
   { path: "/research", title: /Research \| Sarah Rowles/ },
-  { path: "/employment", title: /Employment \| Sarah Rowles/ },
-  { path: "/education", title: /Education \| Sarah Rowles/ },
+  { path: "/work", title: /Work \| Sarah Rowles/ },
   { path: "/contact", title: /Contact \| Sarah Rowles/ },
 ]
 
@@ -34,7 +33,7 @@ test.describe("page smoke tests", () => {
     await expect(page.getByRole("heading", { level: 1, name: "Page not found" })).toBeVisible()
   })
 
-  for (const path of ["/news", "/teaching"]) {
+  for (const path of ["/news", "/teaching", "/education"]) {
     test(`removed route ${path} returns 404`, async ({ page }) => {
       const response = await page.goto(path)
       expect(response?.status()).toBe(404)
