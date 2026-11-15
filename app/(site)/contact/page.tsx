@@ -1,11 +1,14 @@
 import type { Metadata } from "next"
+import { pageMetadata } from "@/lib/metadata"
 import { sanityFetch } from "@/sanity/lib/live"
 import ContactForm from "@/components/ContactForm"
 
-export const metadata: Metadata = {
-  title: "Contact | Sarah Rowles",
-  description: "Get in touch with Sarah Rowles.",
-}
+export const metadata: Metadata = pageMetadata({
+  path: "/contact",
+  title: "Contact",
+  description:
+    "Get in touch with Dr Sarah Rowles using the contact form.",
+})
 
 const CONTACT_QUERY = `*[_id == "contactPage"][0]{ intro }`
 

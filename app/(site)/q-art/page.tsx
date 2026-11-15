@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { pageMetadata } from "@/lib/metadata"
 import type { PortableTextBlock } from "@portabletext/react"
 import type { SanityImageSource } from "@sanity/image-url"
 import { sanityFetch } from "@/sanity/lib/live"
@@ -6,9 +7,12 @@ import { urlFor } from "@/sanity/lib/image"
 import PortableText from "@/components/PortableText"
 import { safeHref } from "@/lib/safeHref"
 
-export const metadata: Metadata = {
-  title: "Q-Art | Sarah Rowles",
-}
+export const metadata: Metadata = pageMetadata({
+  path: "/q-art",
+  title: "Q-Art",
+  description:
+    "Q-Art is the events and publishing organisation Dr Sarah Rowles founded and directed from 2008 to 2018, sharing approaches to teaching art across higher education institutions.",
+})
 
 const QART_QUERY = `*[_id == "qartPage"][0]{ body, image, websiteUrl }`
 

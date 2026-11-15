@@ -22,14 +22,14 @@ export default function Nav() {
           <span className="h-2 w-2 rounded-full bg-accent-2" aria-hidden="true" />
           Sarah Rowles
         </Link>
-        <ul className="flex flex-wrap gap-x-2 gap-y-2 text-xs uppercase tracking-[0.08em]">
+        <ul className="flex flex-wrap gap-x-1 gap-y-2 text-xs uppercase tracking-[0.04em] sm:gap-x-2 sm:tracking-[0.08em]">
           {navItems.map((item) => {
             const isActive =
               item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)
 
             return (
               <li key={item.href}>
-                <Link href={item.href} className={isActive ? "rounded-full bg-accent px-3 py-1 text-paper" : "rounded-full px-3 py-1 text-muted transition-colors duration-150 hover:bg-accent-wash hover:text-ink"}>
+                <Link href={item.href} className={isActive ? "rounded-full bg-accent px-1.5 py-1 sm:px-3 text-paper" : "rounded-full px-1.5 py-1 sm:px-3 text-muted transition-colors duration-150 hover:bg-accent-wash hover:text-ink"}>
                   {item.label}
                 </Link>
               </li>

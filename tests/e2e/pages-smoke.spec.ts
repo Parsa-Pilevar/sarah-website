@@ -1,11 +1,13 @@
 import { test, expect } from "@playwright/test"
 
+const siteUrl = process.env.SITE_URL || "https://www.sarahrowlesedd.com"
+
 const pages = [
-  { path: "/", title: /^Sarah Rowles$/ },
-  { path: "/q-art", title: /Q-Art \| Sarah Rowles/ },
-  { path: "/research", title: /Research \| Sarah Rowles/ },
-  { path: "/work", title: /Work \| Sarah Rowles/ },
-  { path: "/contact", title: /Contact \| Sarah Rowles/ },
+  { path: "/", title: /^Sarah Rowles EdD \| Fine art pedagogy researcher$/ },
+  { path: "/q-art", title: /^Q-Art \| Sarah Rowles EdD$/ },
+  { path: "/research", title: /^Research \| Sarah Rowles EdD$/ },
+  { path: "/work", title: /^Work \| Sarah Rowles EdD$/ },
+  { path: "/contact", title: /^Contact \| Sarah Rowles EdD$/ },
 ]
 
 test.describe("page smoke tests", () => {
@@ -24,6 +26,17 @@ test.describe("page smoke tests", () => {
       expect(response?.ok()).toBeTruthy()
       await expect(page).toHaveTitle(title)
       expect(consoleErrors, `console errors on ${path}:\n${consoleErrors.join("\n")}`).toEqual([])
+    })
+  }
+
+  for (const { path, title, canonical } of [
+    { path: "/", title: "Sarah Rowles EdD | Fine art pedagogy researcher", canonical: siteUrl },
+    { path: "/research", title: "Research | Sarah Rowles EdD", canonical: `${siteUrl}/research` },
+  ]) {
+    test(`${path} has the expected title and canonical link`, async ({ page }) => {
+      await page.goto(path)
+      await expect(page).toHaveTitle(title)
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", canonical)
     })
   }
 
