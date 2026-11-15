@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Newsreader, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google"
 import { siteUrl } from "@/lib/site"
+import { defaultTitle, siteDescription, siteName } from "@/lib/metadata"
 import "./globals.css"
 const newsreader = Newsreader({
   variable: "--font-newsreader",
@@ -18,15 +19,18 @@ const plexMono = IBM_Plex_Mono({
 })
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Sarah Rowles",
-  description: "Academic site of Sarah Rowles.",
+  title: {
+    default: defaultTitle,
+    template: "%s | Sarah Rowles EdD",
+  },
+  description: siteDescription,
   openGraph: {
     type: "website",
-    siteName: "Sarah Rowles",
-    locale: "en_US",
+    siteName,
+    locale: "en_GB",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
   },
 }
 export default function RootLayout({

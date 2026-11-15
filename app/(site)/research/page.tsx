@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { pageMetadata } from "@/lib/metadata"
 import type { PortableTextBlock } from "@portabletext/react"
 import { sanityFetch } from "@/sanity/lib/live"
 import PortableText from "@/components/PortableText"
@@ -6,9 +7,12 @@ import JumpLinks from "@/components/JumpLinks"
 import { safeHref } from "@/lib/safeHref"
 import { shouldShowSpotlight } from "@/lib/spotlight"
 
-export const metadata: Metadata = {
-  title: "Research | Sarah Rowles",
-}
+export const metadata: Metadata = pageMetadata({
+  path: "/research",
+  title: "Research",
+  description:
+    "Publications, presentations and research networks of Dr Sarah Rowles, including book chapters, conference proceedings, journal articles, her doctoral thesis and Q-Art books.",
+})
 
 const RESEARCH_QUERY = `*[_id == "researchPage"][0]{
   publicationGroups,
@@ -63,7 +67,7 @@ export default async function ResearchPage() {
         <JumpLinks links={sections} />
 
         {publicationGroups.length > 0 && (
-          <section id="publications" className="mt-12 scroll-mt-24">
+          <section id="publications" className="mt-12 scroll-mt-28">
             <h2 className={sectionHeading}>Publications</h2>
             {publicationGroups.map((group, g) => (
               <div key={group._key ?? g} className="mt-6">
@@ -89,7 +93,7 @@ export default async function ResearchPage() {
         )}
 
         {presentations.length > 0 && (
-          <section id="presentations" className="mt-12 scroll-mt-24">
+          <section id="presentations" className="mt-12 scroll-mt-28">
             <h2 className={sectionHeading}>Presentations</h2>
             <ul className="mt-4 flex flex-col gap-4">
               {presentations.map((talk, i) => (
@@ -107,7 +111,7 @@ export default async function ResearchPage() {
         )}
 
         {networks.length > 0 && (
-          <section id="networks" className="mt-12 scroll-mt-24">
+          <section id="networks" className="mt-12 scroll-mt-28">
             <h2 className={sectionHeading}>Networks</h2>
             <ul className="mt-4 ml-5 list-disc space-y-1 max-w-[65ch] text-ink/80 leading-relaxed">
               {networks.map((network, i) => (
@@ -118,7 +122,7 @@ export default async function ResearchPage() {
         )}
 
         {showSpotlight && (
-          <section id="spotlight" className="mt-12 scroll-mt-24">
+          <section id="spotlight" className="mt-12 scroll-mt-28">
             <h2 className={sectionHeading}>{research?.spotlightTitle || "Spotlight"}</h2>
             <div className="mt-4">
               <PortableText value={research?.spotlightBody} />

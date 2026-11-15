@@ -12,7 +12,7 @@ export type Role = {
 export default function RoleList({ id, heading, roles }: { id: string; heading?: string; roles: Role[] }) {
   if (roles.length === 0) return null
   return (
-    <section id={id} className="mt-12 scroll-mt-24">
+    <section id={id} className="mt-12 scroll-mt-28">
       {heading && <h2 className="font-serif text-2xl text-ink">{heading}</h2>}
       <ul className="mt-4 flex flex-col gap-6">
         {roles.map((role, i) => {

@@ -1,11 +1,15 @@
 import type { Metadata } from "next"
+import { pageMetadata } from "@/lib/metadata"
 import { sanityFetch } from "@/sanity/lib/live"
 import JumpLinks from "@/components/JumpLinks"
 import RoleList, { type Role } from "@/components/RoleList"
 
-export const metadata: Metadata = {
-  title: "Work | Sarah Rowles",
-}
+export const metadata: Metadata = pageMetadata({
+  path: "/work",
+  title: "Work",
+  description:
+    "Research, teaching and enterprise roles held by Dr Sarah Rowles, from Uniarts Helsinki and UCL's Institute of Education to The Glasgow School of Art and Arts University Bournemouth.",
+})
 
 const EMPLOYMENT_QUERY = `*[_id == "employmentPage"][0]{ researchRoles, teachingRoles, enterpriseRoles }`
 
