@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { pageMetadata } from "@/lib/metadata"
 import { sanityFetch } from "@/sanity/lib/live"
 import ContactForm from "@/components/ContactForm"
+import SignupForm from "@/components/SignupForm"
 
 export const metadata: Metadata = pageMetadata({
   path: "/contact",
@@ -22,6 +23,14 @@ export default async function ContactPage() {
       <div className="fade-up-delay">
         {intro && <p className="mt-6 max-w-[65ch] whitespace-pre-line text-ink/80 leading-relaxed">{intro}</p>}
         <ContactForm />
+        <section className="mt-16">
+          <h2 className="font-serif text-2xl text-ink">Get updates</h2>
+          <p className="mt-4 max-w-[65ch] text-ink/80 leading-relaxed">
+            Leave your email to get occasional updates on Sarah&apos;s research, once or twice a year. Your address is
+            only used for these updates, and you can ask to be removed at any time.
+          </p>
+          <SignupForm />
+        </section>
       </div>
     </div>
   )
