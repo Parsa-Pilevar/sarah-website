@@ -1,6 +1,7 @@
 import Nav from "@/components/Nav"
 import Sidebar from "@/components/Sidebar"
 import { SanityLive } from "@/sanity/lib/live"
+import { Analytics } from "@vercel/analytics/next"
 
 export default function SiteLayout({
   children,
@@ -17,6 +18,7 @@ export default function SiteLayout({
         </div>
       </div>
       <SanityLive />
+      <Analytics />
     </>
   )
 }
